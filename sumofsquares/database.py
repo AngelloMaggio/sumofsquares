@@ -19,3 +19,5 @@ def init_db():
     import sumofsquares.models
     Base.metadata.create_all(bind=engine)
 
+
+

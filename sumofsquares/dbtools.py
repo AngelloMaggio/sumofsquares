@@ -20,13 +20,20 @@ class DBHandler(object):
 
         init_db()
 
-        current_termial = 1
-        current_ss = 1
+        current_termial = 0
+        current_ss = 0
         for i in range(1, n):
-            ss = n**2 + current_ss
-            termial = n + current_termial
+
+            ss = i**2 + current_ss
+            current_ss = ss
+
+            termial = i + current_termial
+            current_termial = termial
+
             termial_square = termial**2
+
             natural = Natural(i, termial=termial, termial_sq=termial_square, sumofsquares=ss)
+
             db_session.add(natural)
             db_session.commit()
         return 1
