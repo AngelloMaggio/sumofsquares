@@ -55,7 +55,7 @@ class Natural(Base):
 
 
 class Triplet(Base):
-    """ Store triplets for easy querying"""
+    """ Store triplets for easy querying from DB"""
     __tablename__ = 'triplets'
 
     product = Column(Integer, primary_key=True)
@@ -100,9 +100,25 @@ class Triplet(Base):
 
     @staticmethod
     def gen_all_pyth_trips(limit):
-        """ Finds all Pythagorean triplets up to limit"""
+        """ Finds all Pythagorean triplets up to limit
+            Sourced from Stackoverflow as part of the gen_prim_pyth_trips answer"""
         for prim in Triplet.gen_prim_pyth_trips(limit):
             i = prim
             for _ in range(limit//prim[2]):
                 yield i
                 i = i + prim
+
+    @staticmethod
+    def no_np_get_trips(limit):
+        """ Non-optimized method to get triplets if Numpy cannot be used."""
+        for x in range(1, limit):
+            xx = x*x
+            y = x + 1
+            z = y + 1
+            while z <= limit:
+                zz = xx + y*y
+                while z*z < zz:
+                    z += 1
+                if z*z == zz and z <= limit:
+                    yield (x, y, z)
+                y += 1
