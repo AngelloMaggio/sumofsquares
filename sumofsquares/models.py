@@ -4,3 +4,5 @@
 """ Application Models
 """
 
+from sqlalchemy import Column, Integer
+from sumofsquares.database import Base

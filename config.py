@@ -3,3 +3,5 @@
 # config.py
 """ Application Configuration
 """
+
+SQLITE_URL = 'sqlite:////tmp/sumofsquares.db'

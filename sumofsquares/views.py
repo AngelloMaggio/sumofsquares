@@ -4,3 +4,4 @@
 """ Application Views
 """
 
+from sumofsquares.database import init_db
