@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# sumofsquare/database.py
+# sumofsquares/database.py
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
