@@ -34,7 +34,7 @@ def ss_termial_diff():
 
     try:
         answer = natural.termial_sq - natural.sumofsquares
-    except (AttributeError, NameError) as err:
+    except (AttributeError, NameError):
         return jsonify({'Message': "Input value {} is either not natural or out of range.".format(n)})
 
     response = {'datetime': datetime.datetime.now(), 'value': answer, 'number': n, 'occurences': natural.request_count,
@@ -58,6 +58,34 @@ def triplets():
     if max(a, b, c) != c:
         return jsonify({'Value': "False"})
 
+    a, b = min(a, b), max(a, b)
+    product = a*b*c
+    triplet = Triplet.query.filter(Triplet.product == product, Triplet.a == a, Triplet.b == b).first()
+
+    try:
+        response = {'datetime': datetime.datetime.now(), 'Triplet': [a, b, c], 'number': product,
+                    'occurences': triplet.request_count, 'last_datetime': triplet.last_request}
+        return jsonify(response)
+
+    except (AttributeError, NameError):
+        return jsonify({'Message': "Input value {} is either not natural or out of range.".format(n)})
+
+
+@app.route('/tripletsInMem', methods=['GET'])
+def triplets_in_mem():
+    """ Returns whether 3 numbers are a pythagorean triplet and if their product is equals to n"""
+
+    a = request.args.get("a", type=int)
+    b = request.args.get("b", type=int)
+    c = request.args.get("c", type=int)
+    n = request.args.get("n", type=int)
+
+    if None in (a, b, c, n):
+        return jsonify({'Message': "One or more your input values is not an integer or you did not pass 4 values."})
+
+    if max(a, b, c) != c:
+        return jsonify({'Value': "False"})
+
     if Triplet.is_pythagorean_triplet(a, b, c, n):
         return jsonify({'Value': "True"})
 
@@ -68,3 +96,4 @@ def populate_db(n):
     handler = DBHandler('w')
     handler.populate(n)
     return jsonify({'Status': 'Done'})
+
