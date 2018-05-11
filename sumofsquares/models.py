@@ -22,11 +22,11 @@ class Natural(Base):
 
     def __init__(self, n, square=None, termial=None, termial_sq=None, sumofsquares=None, request_count=0):
         self.n = n
-        self.square = squares
+        self.square = square
         self.termial = termial
         self.termial_sq = termial_sq
         self.sumofsquares = sumofsquares
-        self.request_count = 0
+        self.request_count = request_count
         self.last_request = datetime.datetime.now()
 
     def __repr__(self):
@@ -58,25 +58,28 @@ class Triplet(Base):
     """ Store triplets for easy querying"""
     __tablename__ = 'triplets'
 
-    n = Column(Integer, primary_key=True)
+    product = Column(Integer, primary_key=True)
     a = Column(Integer)
     b = Column(Integer)
     c = Column(Integer)
     last_request = Column(DateTime)
+    request_count = Column(Integer)
 
-    def __init__(self, a, b, c, n=None):
+    def __init__(self, a: int, b: int, c, product, request_count=0):
         self.a = a
         self.b = b
         self.c = c
-        if not n:
-            self.n = a*b*c
+        self.product = product
+        self.last_request = datetime.datetime.now()
+        self.request_count = request_count
 
     @staticmethod
-    def is_pythagorean_triplet(a: int, b: int, c: int, n=None) -> bool:
-        """ Simple way of checking if a,b,c are a pythagorean triplet and if their product equals to n (n given)"""
-        if not n:
+    def is_pythagorean_triplet(a: int, b: int, c: int, product=None) -> bool:
+        """ Simple way of checking if a,b,c are a pythagorean triplet and if their product equals to n (if n given)
+        If n is not given it will just return whether they are a triplet."""
+        if not product:
             return a**2 + b**2 == c**2
-        return (a**2 + b**2 == c**2) and a*b*c == n
+        return (a**2 + b**2 == c**2) and a*b*c == product
 
     @staticmethod
     def gen_prim_pyth_trips(limit):
