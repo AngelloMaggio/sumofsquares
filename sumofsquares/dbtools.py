@@ -7,7 +7,6 @@ from sumofsquares.database import init_db
 from sumofsquares.models import Natural, Triplet
 from sumofsquares.database import db_session
 from sumofsquares import app
-import math
 
 
 class DBHandler(object):
